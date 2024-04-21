@@ -1,17 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
-body{
-  font-family: 'JetBrains Mono', monospace;
-}
-#forms{
+#forms {
   align-items: center;
   text-align: center;
   background-color: #eee;
   width: 60%;
   margin: auto auto;
   padding: 20px;
-  border-radius: 15px;  
+  border-radius: 15px;
 }
-input{
+input {
   width: 30%;
   height: 30px;
   border-radius: 5px;
@@ -19,12 +16,12 @@ input{
   outline: none;
   color: rgb(60, 60, 60);
 }
-input:focus{
+input:focus {
   border: 2px solid rgb(0, 128, 255);
   transition: 0.4s;
   border-radius: 8px;
 }
-button{
+button {
   border: 0px;
   border-radius: 500px;
   padding: 10px;
@@ -33,14 +30,31 @@ button{
   font-family: 'JetBrains Mono', monospace;
   background-color: black;
   color:white;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
 }
-button:hover{
-  border-color: gray;
-  
-  transition: 200ms ease;
-  background-color:rgba(255, 255, 255, 0.643);
-  color:black;
+button span {
+  position: relative;
+  z-index: 1;
 }
-#forms h1{
+button::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300%;
+  height: 300%;
+  background-color: rgba(255, 255, 255, 0.643);
+  transition: all 0.4s ease;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+}
+button:hover::before {
+  width: 0;
+  height: 0;
+}
+#forms h1 {
   font-size: 40px;
 }
