@@ -3,7 +3,18 @@
 
 {% block body %}
 <h1>DASHBOARD</h1>
+{% if username %}
+  <h1>Bem Vindo - {{ username }}</h1>
+  <p>Token de acesso -  {{ access_token }}</p>
 
-<p>Token na URL {{ access_token }}</p>
+  <form action="logout" method="post">
+    <button>Logout</button>
+  </form>
+{% else %}
+  <form action="login" method="get">
+    <button>Login</button>
+  </form>
+{% endif %}
+
 
 {% endblock %}
