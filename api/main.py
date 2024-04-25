@@ -1,3 +1,6 @@
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity 
+import requests
+
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 import pandas as pd
@@ -5,6 +8,8 @@ import pandas as pd
 app = Flask(__name__, template_folder='./')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///login.db'
+app.config['JWT_SECRET_KEY'] = 'testejwt-key'
+jwt = JWTManager(app)
 db = SQLAlchemy(app)
 
 class Database(db.Model):
@@ -32,6 +37,7 @@ def index():
 def login():
     return render_template('login.html')
 
+@jwt_required()
 @app.route('/dashboard', methods=['GET'])
 def dashboard():
     return render_template('dashboard.html')
@@ -50,7 +56,7 @@ def post_database():
         database = Database(username=username, email=email, password=password)
         db.session.add(database)
         db.session.commit()
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('index'))
     
 @app.route('/get_database', methods=['POST', 'GET'])
 def get_database():
@@ -59,7 +65,13 @@ def get_database():
         email = request.form['email']
         password = request.form['password']
         if(verify_data(username, email, password)):
-            return redirect(url_for('dashboard'))
+            access_token = create_access_token(identity=username)
+            headers = {'Authorization': 'Bearer ' + access_token}
+            response = requests.get('http://localhost:5000/dashboard', headers=headers)
+            if(response.status_code == 200): 
+                return redirect(url_for('dashboard', access_token=access_token))
+            else:
+                return redirect(url_for('index'))
         else:
             return redirect(url_for('index'))
 
