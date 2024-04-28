@@ -1,2 +1,3 @@
 # api-python
-Project made on python made with Flask, SqLite and SQLAlchemy made by @vitto663, @marinho777
+Project made on Python with Flask, SqLite (SQLAlchemy), Logging and Token Authentication (JWT)
+made by @vitto663, @marinho777
