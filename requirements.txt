@@ -1,5 +1,6 @@
-pandas
-Flask
+flask
 flask_jwt_extended
+flask_sqlalchemy
+random
+datetime
 requests
-SQLAlchemy
